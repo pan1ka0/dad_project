@@ -1,6 +1,8 @@
 from fastapi import FastAPI, Depends, HTTPException, WebSocket, WebSocketDisconnect, Request
 from fastapi.responses import Response
 from sqlalchemy.orm import Session
+from fastapi.middleware.cors import CORSMiddleware
+
 
 import io
 import csv
@@ -39,7 +41,13 @@ load_dotenv()
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="University LMS Lite API")
-
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # =========================
 # REDIS SETUP
